@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TastyBox - Fresh Homestyle Meals</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <style>
+    /* Global Styling */
+    body { font-family: 'Poppins', sans-serif; background-color: #fffaf3; }
+    .tasty-nav {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: #fff !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Make layout adaptive */
+.tasty-nav .container-fluid {
+  flex-wrap: wrap;
+}
+
+/* WhatsApp button responsive style */
+.order-btn {
+  transition: all 0.3s ease;
+}
+.order-btn:hover {
+  background-color: #128C7E;
+}
+
+/* Responsive stacking */
+@media (max-width: 767px) {
+  .tasty-nav .container-fluid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tasty-nav .navbar-brand {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  .order-btn {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
+
+    /* Header & Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .banner-bar {
+      background: #e63946; /* Deep Red */
+      color: white;
+      text-align: center;
+      padding: 8px;
+      font-weight: 500;
+    }
+
+    .hero {
+  position: relative;
+  background: url(image.png) center / cover no-repeat;
+  background-color: #fdd885;
+  color: #fff;
+  text-align: center;
+  padding: 181px 20px;
+  z-index: 1;
+}
+
+/* Overlay */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+  z-index: -1;
+}
+
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fbfffd; 
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin: 10px 0 25px;
+      color: #fcfbfb;
+    }
+
+    .hero .btn-primary {
+      background: #ff5722; /* Orange */
+      border: none;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      transition: all .3s ease;
+    }
+    .hero .btn-primary:hover { background: #e64a19; }
+
+    /* Tables and Content */
+    .price-table th, .price-table td { text-align: center; }
+
+    .footer {
+      background: #ffe5b4;
+      padding: 20px;
+      text-align: center;
+      color: #b22222;
+      font-weight: 600;
+    }
+
+    .meal-section img {
+      border-radius: 10px;
+      width: 100%;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+
+    /* Floating WhatsApp Button */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 50px;
+      left: 20px;
+      z-index: 999;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 2px 2px 6px rgba(0,0,0,.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .whatsapp-btn img { width: 28px; height: 28px; }
+    .desktop { display: none; }
+    .mobile { display: none; }
+    @media (min-width: 568px) { .desktop { display: flex; } }
+    @media (max-width: 567px) { .mobile { display: flex; } }
+
+    /* --- HOW IT WORKS STEP FLOW STYLES (NEW DESIGN) --- */
+
+    /* Removed the large container styling */
+    .how-it-works-container {
+        background-color: transparent;
+        padding: 40px 20px;
+    }
+
+    /* Individual step box styling applied here */
+    .how-it-works-step {
+      background-color: white; /* White box for each step */
+      padding: 30px 15px; /* Added back padding for content */
+      border-radius: 10px;
+      /* Subtle shadow/border matching the reference */
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05); 
+      border: 1px solid #f5f5f5;
+
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center; 
+    }
+
+    /* Icon Circle Container - kept for the circular icon background */
+    .icon-circle {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      /* Adjusted shadow/border to be very subtle */
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+      border: 1px solid #eee;
+    }
+    
+    .step-icon {
+      font-size: 2rem;
+    }
+    
+    /* Specific colors for each icon */
+    .icon-red { color: #e63946; }
+    .icon-green { color: #4CAF50; }
+    .icon-blue { color: #4285F4; }
+    .icon-gold { color: #FFC107; }
+    
+    /* Step Title - using specific color from reference for numbers/titles */
+    .how-it-works-step h6 {
+        color: #e63946; /* Using the primary TastyBox red for the title/number */
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    /* Desktop/Tablet Arrow Styling */
+    .step-arrow::after {
+      content: '\f0da'; /* Unicode for solid right arrow icon (chevron right) */
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      top: 50%;
+      /* Position arrow to be just outside the box */
+      right: -25px; 
+      transform: translateY(-50%);
+      color: #e63946; /* Using the primary red color for the arrow as per reference */
+      font-size: 20px;
+      z-index: 10;
+      display: none; /* Hidden by default for mobile */
+    }
+
+    /* Show arrow on desktop/tablet for all but the last step */
+    @media (min-width: 768px) {
+      .step-arrow::after {
+        display: block;
+      }
+      .step-col:last-child .how-it-works-step::after {
+        display: none; /* Hide arrow on the last step */
+      }
+      .step-col {
+        /* Add margin to the right of the column to accommodate the arrow and spacing */
+        padding-right: 35px; 
+      }
+      .step-col:last-child {
+        padding-right: 15px; /* Reset padding for the last column */
+      }
+    }
+
+    /* Mobile Vertical Flow Indicator */
+    @media (max-width: 767px) {
+      .step-col:not(:last-child) {
+        margin-bottom: 30px; /* Space between the boxes vertically */
+      }
+      
+      /* Vertical arrow pointing down at the bottom of the box */
+      .step-col:not(:last-child) .how-it-works-step::after {
+        content: '\f0d7'; /* Unicode for solid down arrow icon */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        bottom: -25px; /* Positioned below the box */
+        left: 50%;
+        transform: translateX(-50%);
+        color: #e63946; /* Matching arrow color */
+        font-size: 20px;
+        z-index: 6;
+      }
+    }
+
+    .delivery-zones-section {
+        background-color: #000; /* Black background like the image */
+        color: #fff; /* White text */
+    }
+    .delivery-zones-section h2 {
+        font-size: 2rem;
+        color: #fff;
+        font-weight: 900;
+        /* Custom font style from the image */
+        font-family: cursive, sans-serif; 
+    }
+    .delivery-list {
+        max-width: 600px;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        text-align: left; /* Keep list text left-aligned */
+    }
+    .delivery-list li {
+        margin-bottom: 10px;
+    }
+
+    .meal-box-section {
+    background: #fffafc;
+  }
+  .meal-box-section img {
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .meal-box-section img:hover {
+    transform: scale(1.05);
+  }
+  .card {
+    border-radius: 18px;
+  }
+  .text-danger {
+    color: #E74D56 !important;
+  }
+  .meal-box-section img {
+  width: 100%;
+  height: 230px; /* fixed height */
+  object-fit: cover; /* ensures no distortion, crops gracefully */
+  border-radius: 14px;
+  transition: transform 0.3s ease;
+}
+
+.meal-box-section img:hover {
+  transform: scale(1.05);
+}
+
+.card {
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.meal-box-section .card p {
+  min-height: 60px; /* keeps text areas uniform */
+}
+
+    /* --- END STEP FLOW STYLES --- */
+  </style>
+</head>
+<body>
+  <header>
+    <div class="banner-bar">Order Timings: Lunch Before 9:00 AM | Dinner Before 4:00 PM</div>
+    <nav class="navbar navbar-light bg-light px-3 py-2 tasty-nav">
+      <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between">
+    
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold text-danger fs-3 d-flex align-items-center" href="#">
+          <img src="logo.png" style="width:45px; height:auto; margin-right:8px;"> 
+          TastyBox
+        </a>
+    
+        <!-- WhatsApp Button -->
+        <a href="https://api.whatsapp.com/send?phone=+919391156223" 
+           class="btn btn-success fw-bold rounded-pill shadow-sm order-btn">
+          <i class="fab fa-whatsapp me-1"></i> Order Now
+        </a>
+    
+      </div>
+    </nav>
+    
+  </header>
+
+  <section class="hero">
+    <h1>No Time, No Kitchen? No Problem!</h1>
+    <p class="lead">Fresh, home-style meals delivered in steel boxes — One-time, Daily, Weekly, Monthly.</p>
+    <a href="https://api.whatsapp.com/send?phone=+919391156223" class="btn btn-primary shadow-lg">Order via WhatsApp</a>
+  </section>
+
+  <section class="container py-5 meal-section">
+    <h2 class="text-center mb-5 fw-bold text-dark">Our Meal Plans</h2>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered price-table shadow-sm align-middle">
+        <thead class="table-danger text-white">
+          <tr>
+            <th>Plan Type</th>
+            <th>Lunch</th>
+            <th>Dinner</th>
+            <th>Curd Rice</th>
+            <th>Sambar Rice</th>
+            <th>Pulihora / Jeera Rice</th>
+            <th>Lunch + Dinner (Best Value)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>One-Time</td>
+            <td>₹200</td>
+            <td>₹180</td>
+            <td>₹120</td>
+            <td>₹120</td>
+            <td>₹120</td>
+            <td>₹350</td>
+          </tr>
+          <tr>
+            <td>Daily</td>
+            <td>₹180/day</td>
+            <td>₹160/day</td>
+            <td>₹100/day</td>
+            <td>₹100/day</td>
+            <td>₹100/day</td>
+            <td>₹320/day</td>
+          </tr>
+          <tr>
+            <td>Weekly</td>
+            <td>₹900</td>
+            <td>₹800</td>
+            <td>₹500</td>
+            <td>₹500</td>
+            <td>₹500</td>
+            <td>₹1500</td>
+          </tr>
+          <tr>
+            <td>Monthly</td>
+            <td>₹3900</td>
+            <td>₹3400</td>
+            <td>₹2200</td>
+            <td>₹2200</td>
+            <td>₹2200</td>
+            <td>₹6500</td>
+          </tr>
+          <tr>
+            <td>Yearly</td>
+            <td>₹46,800</td>
+            <td>₹40,800</td>
+            <td>₹26,400</td>
+            <td>₹26,400</td>
+            <td>₹26,400</td>
+            <td>₹78,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-4 text-center fw-semibold" 
+   style="font-size: 1.05rem; background: #fff5f5; border-left: 5px solid #e63946; 
+          display: inline-block; padding: 14px 22px; border-radius: 8px; color: #444;">
+  For <strong>weekly</strong> and <strong>monthly subscriptions</strong>, we provide durable 
+  <strong>steel boxes with bags</strong>. We don’t compromise on quality — instead of plastic, 
+  your meals arrive in reusable steel boxes.
+</p>
+
+  </section>
+  
+  <section class="container py-5 meal-box-section">
+    <h2 class="text-center fw-bold mb-5" style="color:#95256E;">
+      What’s Inside?
+    </h2>
+    
+    <div class="row g-4">
+  
+      <!-- Lunch Box -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3 h-100">
+          <img src="1 1.png" alt="Lunch Box" class="img-fluid rounded-4 mb-3">
+          <h4 class="fw-bold text-danger mb-2">Lunch Box</h4>
+          <p class="text-secondary mb-0" style="line-height:1.6;">
+            Dal, Rice, One Vegetable Curry, Pickle, and Curd.<br>
+            A complete, satisfying midday meal.
+          </p>
+        </div>
+      </div>
+  
+      <!-- Dinner Box -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3 h-100">
+          <img src="2 1.png" alt="Dinner Box" class="img-fluid rounded-4 mb-3">
+          <h4 class="fw-bold text-danger mb-2">Dinner Box</h4>
+          <p class="text-secondary mb-0" style="line-height:1.6;">
+            Vegetable Curry and soft Chapathi.<br>
+            A light, healthy way to end your day.
+          </p>
+        </div>
+      </div>
+  
+      <!-- Curd Rice Bowl -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3 h-100">
+          <img src="curdrice.jpeg" alt="Curd Rice Bowl" class="img-fluid rounded-4 mb-3">
+          <h4 class="fw-bold text-danger mb-2">Curd Rice Bowl</h4>
+          <p class="text-secondary mb-0" style="line-height:1.6;">
+            Refreshing curd rice tempered with mustard seeds and curry leaves.<br>
+            A perfect cooling finish to your meal.
+          </p>
+        </div>
+      </div>
+  
+      <!-- Sambar Bowl -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3 h-100">
+          <img src="sambarrice.jpeg" alt="Sambar Bowl" class="img-fluid rounded-4 mb-3">
+          <h4 class="fw-bold text-danger mb-2">Sambar Bowl</h4>
+          <p class="text-secondary mb-0" style="line-height:1.6;">
+            Classic South Indian sambar with fresh vegetables.<br>
+            Comforting, flavorful, and nutrient-rich.
+          </p>
+        </div>
+      </div>
+  
+      <!-- Pulihora / Jeera Rice Bowl -->
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3 h-100">
+          <img src="pulihorabowl.jpeg" alt="Pulihora / Jeera Rice Bowl" class="img-fluid rounded-4 mb-3">
+          <h4 class="fw-bold text-danger mb-2">Pulihora bowl</h4>
+          <p class="text-secondary mb-0" style="line-height:1.6;">
+            Tangy tamarind rice<br>
+            Simple, wholesome, and full of authentic flavor.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-3 h-100">
+          <img src="jeerarice.jpeg" alt="Pulihora / Jeera Rice Bowl" class="img-fluid rounded-4 mb-3">
+          <h4 class="fw-bold text-danger mb-2"> Jeera Rice Bowl</h4>
+          <p class="text-secondary mb-0" style="line-height:1.6;">
+             Aromatic jeera rice.<br>
+            Simple, wholesome, and full of authentic flavor.
+          </p>
+        </div>
+      </div>
+  
+    </div>
+  </section>
+  
+  
+  
+
+  <section class="container py-5 text-center how-it-works-container">
+    <h2 class="fw-bold mb-5 text-dark">How It Works</h2>
+    <div class="row g-4 justify-content-center">
+      <!-- Step 1: Choose Plan (RED) -->
+      <div class="col-lg-3 col-md-6 step-col">
+        <div class="how-it-works-step step-arrow">
+          <div class="icon-circle">
+            <i class="fa-solid fa-list-check step-icon icon-red"></i>
+          </div>
+          <h6 class="fw-bold mt-2 text-danger">1. Choose Your Plan</h6>
+          <p class="mb-0 small text-muted">Select from One-Time, Daily, Weekly, or Monthly options.</p>
+        </div>
+      </div>
+      <!-- Step 2: Confirm on WhatsApp (GREEN) -->
+      <div class="col-lg-3 col-md-6 step-col">
+        <div class="how-it-works-step step-arrow">
+          <div class="icon-circle">
+            <i class="fa-brands fa-whatsapp step-icon icon-green"></i>
+          </div>
+          <h6 class="fw-bold mt-2 text-danger">2. Confirm on WhatsApp</h6>
+          <p class="mb-0 small text-muted">Send your plan, address, and delivery time to our number.</p>
+        </div>
+      </div>
+      <!-- Step 3: Get Delivery (BLUE) -->
+      <div class="col-lg-3 col-md-6 step-col">
+        <div class="how-it-works-step step-arrow">
+          <div class="icon-circle">
+            <i class="fa-solid fa-truck-fast step-icon icon-blue"></i>
+          </div>
+          <h6 class="fw-bold mt-2 text-danger">3. Get Daily Delivery</h6>
+          <p class="mb-0 small text-muted">We deliver your fresh, homestyle meal on time in steel boxes.</p>
+        </div>
+      </div>
+      <!-- Step 4: Enjoy Meal (GOLD) -->
+      <div class="col-lg-3 col-md-6 step-col">
+        <div class="how-it-works-step">
+          <div class="icon-circle">
+            <i class="fa-solid fa-utensils step-icon icon-gold"></i>
+          </div>
+          <h6 class="fw-bold mt-2 text-danger">4. Enjoy Your Meal</h6>
+          <p class="mb-0 small text-muted">Savor your delicious, hassle-free homestyle food!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="delivery-zones-section py-5">
+    <div class="container text-center">
+        <!-- The font-family for h2 is changed in CSS to give it a unique style like the image -->
+        <h2 class="text-center mb-5 fw-bold">Our Delivery Zones</h2>
+        <ul class="list-unstyled delivery-list mx-auto text-white">
+            <li>Subscribers Delivery Charges:</li>
+            <!-- Added the user's specific request -->
+            <li>&bull; Rasoolpura and Prakash Nagar: ₹50/day.</li>
+            <!-- Existing data points -->
+           
+            <li class="mt-4">For Manikonda, Durgam Cheruvu, Film Nagar, Jubilee Hills & Banjara Hills we use third-party delivery partners like Uber and Rapido.</li>
+        </ul>
+    </div>
+</section>
+
+  <div class="footer">Call us : 9392736351 | Fresh Meals, Happy Belly</div>
+
+  <!-- Floating WhatsApp Buttons (uses external GIF image, added alt text) -->
+  <a class="whatsapp-btn mobile" href="https://api.whatsapp.com/send?phone=+919391156223">
+    <img src="https://aryasrikanth73.github.io/srikantharya/images/whatsapp.gif" alt="WhatsApp Chat" onerror="this.src='https://placehold.co/28x28/25d366/ffffff?text=W'"/>
+  </a>
+  <a class="whatsapp-btn desktop" href="https://web.whatsapp.com/send?phone=+919391156223" target="_blank">
+    <img src="https://aryasrikanth73.github.io/srikantharya/images/whatsapp.gif" alt="WhatsApp Chat" onerror="this.src='https://placehold.co/28x28/25d366/ffffff?text=W'"/>
+  </a>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
